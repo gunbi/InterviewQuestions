@@ -12,7 +12,7 @@ public class QuickSortPlus {
         }
         int i = low;
         int j = high;
-        int key = getKeyindex(low, high);
+        int key = getKeyIndex(low, high);
         swap(a, low, key);
         while (i < j) {
             while (i < j && a[j] >= a[low]) j--;
@@ -25,6 +25,50 @@ public class QuickSortPlus {
         quickSortPlus(a, low, i - 1);
         quickSortPlus(a, i + 1, high);
     }
+
+    //获取标记值的下标
+    private static int getKeyIndex(int low, int high) {
+        if (high - low > 1) {
+            int[] indexs = new int[3];
+            int count = 0;
+            while (count < 3) {
+                Random r = new Random();
+                int index = r.nextInt(high - low + 1) + low;
+                boolean exits = false;
+                for (int i = 0; i < count; i++) {
+                    if (indexs[i] == index) {
+                        exits = true;
+                    }
+                }
+                if (!exits) {
+                    indexs[count] = index;
+                    count++;
+                }
+            }
+            return getMid(indexs[0], indexs[1], indexs[2]);
+        } else {
+            return low;
+        }
+    }
+
+    private static int getMid(int a, int b, int c) {
+        return Math.max(a, b) > c ? (Math.max(Math.min(a, b), c)) : Math.min(Math.max(a, b), c);
+    }
+
+
+    private static void swap(int[] data, int i, int j) {
+        int temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
+
+    public static void main(String[] args) {
+        int[] a = {1, 23};
+        quickSortPlus(a, 0, a.length - 1);
+        System.out.println(Arrays.toString(a));
+    }
+
 
     public static void quickSort_1(int[] data, int start, int end) {
         if (data == null || start < 0 || end > data.length - 1) {
@@ -56,45 +100,4 @@ public class QuickSortPlus {
         return small + 1;
     }
 
-    private static void swap(int[] data, int i, int j) {
-        int temp = data[i];
-        data[i] = data[j];
-        data[j] = temp;
-    }
-
-    private static int getKeyindex(int low, int high) {
-        if (high - low > 1) {
-            int[] indexs = new int[3];
-            int count = 0;
-            while (count < 3) {
-                Random r = new Random();
-                int index = r.nextInt(high - low + 1) + low;
-                boolean exits = false;
-                for (int i = 0; i < count; i++) {
-                    if (indexs[i] == index) {
-                        exits = true;
-                    }
-                }
-                if (!exits) {
-                    indexs[count] = index;
-                    count++;
-                }
-            }
-            return getMid(indexs[0], indexs[1], indexs[2]);
-        } else {
-            return low;
-        }
-    }
-
-
-    private static int getMid(int a, int b, int c) {
-        return Math.max(a, b) > c ? (Math.max(Math.min(a, b), c)) : Math.min(Math.max(a, b), c);
-    }
-
-
-    public static void main(String[] args) {
-        int[] a = {1, 23};
-        quickSortPlus(a, 0, a.length - 1);
-        System.out.println(Arrays.toString(a));
-    }
 }
